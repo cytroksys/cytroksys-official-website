@@ -30,7 +30,7 @@ services:
         VITE_EMAILJS_PUBLIC_KEY: ${VITE_EMAILJS_PUBLIC_KEY:-}
     container_name: cytroksys-web
     ports:
-      - "8080:80"
+      - "9488:80"
     restart: unless-stopped
     profiles: ["prod"]
 
