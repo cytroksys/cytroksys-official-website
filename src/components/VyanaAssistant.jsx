@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion as Motion } from 'framer-motion'
 import { IconResolver } from './IconResolver'
 
@@ -116,14 +116,6 @@ export default function VyanaAssistant() {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState(seedMessages)
 
-  const statusText = useMemo(() => {
-    if (typing) {
-      return 'Checking support documents...'
-    }
-
-    return 'Secure API • Cytroksys RAG Support'
-  }, [typing])
-
   useEffect(() => {
     const openFromAnywhere = () => {
       setOpen(true)
@@ -222,8 +214,7 @@ export default function VyanaAssistant() {
                   className="h-8 w-8 rounded-full border border-cyber-line/80 object-cover shadow-glow"
                 />
                 <div>
-                  <p className="font-display text-sm tracking-wide text-cyber-text">Vyana Cytroksys Assistant</p>
-                  <p className="text-[10px] uppercase tracking-[0.14em] text-cyber-cyan/90">{statusText}</p>
+                  <p className="font-display text-sm tracking-wide text-cyber-text">Vyana</p>
                 </div>
               </div>
               <button
