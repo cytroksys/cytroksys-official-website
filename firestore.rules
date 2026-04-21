@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper: is the caller an active admin? ──────────────
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.isActive == true;
+    }
+
+    // ── Products ────────────────────────────────────────────
+    // Public: anyone can read products (store filters isActive client-side)
+    // Admin:  authenticated admins can create, update, delete
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Orders ──────────────────────────────────────────────
+    // Public: anyone can create an order (place order request)
+    // Public: cannot read, update, or delete orders after creation
+    // Admin:  can read and update orders (not delete)
+    match /orders/{orderId} {
+      allow create: if true
+        && request.resource.data.status == 'Placed'
+        && request.resource.data.customerFirstName is string
+        && request.resource.data.customerEmail is string
+        && request.resource.data.customerPhone is string
+        && request.resource.data.productId is string;
+
+      allow read, update: if isAdmin();
+      allow delete: if false;
+
+      // Order status history subcollection
+      match /statusHistory/{historyId} {
+        allow read, create: if isAdmin();
+        allow update, delete: if false;
+      }
+    }
+
+    // ── Admins ──────────────────────────────────────────────
+    // Only the admin themselves can read their own profile
+    // Writes are done only via seed script (Admin SDK bypasses rules)
+    match /admins/{adminId} {
+      allow read: if request.auth != null && request.auth.uid == adminId;
+      allow write: if false;
+    }
+  }
+}
