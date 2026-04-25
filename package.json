@@ -8,12 +8,13 @@
     "api:start": "node server/index.js",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
+    "preview": "npm run build && wrangler dev",
     "docker:dev": "docker compose --profile dev up --build",
     "docker:prod": "docker compose --profile prod up --build -d",
     "docker:down": "docker compose down",
     "seed:products": "node scripts/seed-products.js",
-    "seed:admin": "node scripts/seed-admin.js"
+    "seed:admin": "node scripts/seed-admin.js",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -30,6 +31,7 @@
     "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.33.2",
     "@eslint/js": "^9.39.4",
     "@tailwindcss/postcss": "^4.1.4",
     "@types/react": "^19.2.14",
