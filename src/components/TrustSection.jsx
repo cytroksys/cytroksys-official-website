@@ -12,7 +12,7 @@ const techStack = [
 
 export default function TrustSection() {
   return (
-    <section className="relative overflow-hidden border-y border-cyber-line/50 bg-cyber-ink py-10">
+    <section className="theme-sheen-cyan relative overflow-hidden border-y border-cyber-line/50 bg-cyber-panel/38 py-10">
       <div className="cyber-grid-overlay absolute inset-0 z-0 opacity-40" />
       
       <div className="mx-auto max-w-7xl px-4 md:px-6">
@@ -25,19 +25,22 @@ export default function TrustSection() {
           Powering Digital Transformation with Industry Leaders
         </Motion.p>
 
-        <div className="mt-8 flex flex-wrap justify-center gap-8 md:gap-16 opacity-85 group">
+        <div className="mt-8 flex flex-wrap justify-center gap-3 md:gap-4">
           {techStack.map((tech, i) => (
             <Motion.div
               key={tech.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 10, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ scale: 1.1, opacity: 1 }}
-              className="flex items-center gap-2 grayscale transition duration-300 hover:grayscale-0 hover:text-cyber-text"
+              transition={{ delay: i * 0.06, duration: 0.35 }}
+              whileHover={{ y: -4, scale: 1.03 }}
+              className="trust-pill group inline-flex items-center gap-3 rounded-full px-4 py-3 transition duration-300"
+              style={{ '--trust-accent': tech.color }}
             >
-              <IconResolver name={tech.icon} className="h-5 w-5" style={{ color: tech.color }} />
-              <span className="font-display text-sm font-semibold tracking-wide text-cyber-muted transition group-hover:text-cyber-muted hover:!text-cyber-text">
+              <span className="trust-pill-icon inline-flex h-9 w-9 items-center justify-center rounded-full">
+                <IconResolver name={tech.icon} className="h-4.5 w-4.5" style={{ color: tech.color }} />
+              </span>
+              <span className="font-display text-sm font-semibold tracking-wide text-cyber-text transition">
                 {tech.name}
               </span>
             </Motion.div>
@@ -45,8 +48,8 @@ export default function TrustSection() {
         </div>
       </div>
 
-      <div className="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-cyber-ink to-transparent z-10" />
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-cyber-ink to-transparent z-10" />
+      <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 bg-gradient-to-r from-cyber-panel to-transparent" />
+      <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 bg-gradient-to-l from-cyber-panel to-transparent" />
     </section>
   )
 }

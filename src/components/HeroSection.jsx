@@ -6,10 +6,10 @@ import AnimatedCounter from './AnimatedCounter'
 import HeroVisual from './HeroVisual'
 
 const heroStats = [
-  { icon: 'Code2', value: '25', suffix: '+', label: 'Projects', detail: 'Delivered' },
-  { icon: 'Clock3', value: companyProfile.founded, label: 'Founded', detail: 'Built in India', staticValue: true },
-  { icon: 'Network', value: '3', label: 'Global', detail: 'Delivery Offices' },
-  { icon: 'ShieldCheck', value: '100', suffix: '%', label: 'Client', detail: 'Satisfaction Focus' },
+  { icon: 'Code2', value: '25', suffix: '+', label: 'Projects', detail: 'Delivered', accent: '#2563EB' },
+  { icon: 'Clock3', value: companyProfile.founded, label: 'Founded', detail: 'Built in India', staticValue: true, accent: '#0EA5E9' },
+  { icon: 'CloudCog', value: '3', label: 'Cloud', detail: 'Platform Support', accent: '#0F766E' },
+  { icon: 'ShieldCheck', value: '100', suffix: '%', label: 'Client', detail: 'Satisfaction Focus', accent: '#F97316' },
 ]
 
 export default function HeroSection() {
@@ -138,8 +138,8 @@ export default function HeroSection() {
             transition={{ duration: 0.65, delay: 0.3 }}
             className="hero-stat-grid mt-9 grid grid-cols-2 gap-3 sm:gap-4 md:max-w-2xl"
           >
-            {heroStats.map((stat) => (
-              <Stat key={`${stat.label}-${stat.detail}`} {...stat} />
+            {heroStats.map((stat, index) => (
+              <Stat key={`${stat.label}-${stat.detail}`} index={index} {...stat} />
             ))}
           </Motion.div>
         </div>
@@ -153,22 +153,29 @@ export default function HeroSection() {
 }
 
 
-function Stat({ icon, label, detail, value, suffix = '', staticValue = false }) {
+function Stat({ icon, label, detail, value, suffix = '', staticValue = false, accent, index }) {
   return (
-    <div className="stat-card hero-stat-card group relative overflow-hidden rounded-2xl border border-cyber-line/50 bg-cyber-panel p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all hover:-translate-y-1 hover:shadow-aurora">
+    <Motion.article
+      initial={{ opacity: 0, y: 18, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.45, delay: 0.36 + index * 0.08, ease: 'easeOut' }}
+      whileHover={{ y: -6, scale: 1.015 }}
+      className="stat-card hero-stat-card group relative overflow-hidden rounded-[1.65rem] border border-cyber-line/50 bg-cyber-panel p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all"
+      style={{ '--stat-accent': accent }}
+    >
       <div className="hero-stat-glow absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100" aria-hidden="true" />
       <div className="relative z-10 flex items-start gap-3">
         <span className="hero-stat-icon inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
           <IconResolver name={icon} className="h-5 w-5" />
         </span>
         <span className="min-w-0">
-          <span className="block font-display text-[1.95rem] font-extrabold leading-none tracking-tight text-cyber-text">
+          <span className="hero-stat-value block font-display text-[1.95rem] font-extrabold leading-none tracking-tight text-cyber-text">
             {staticValue ? value : <AnimatedCounter end={value} suffix={suffix} duration={1100} />}
           </span>
           <span className="mt-2 block text-[12px] font-bold uppercase tracking-[0.12em] text-cyber-text/90">{label}</span>
-          <span className="mt-0.5 block text-[12px] font-medium text-cyber-muted">{detail}</span>
+          <span className="hero-stat-detail mt-0.5 block text-[12px] font-medium text-cyber-muted">{detail}</span>
         </span>
       </div>
-    </div>
+    </Motion.article>
   )
 }
