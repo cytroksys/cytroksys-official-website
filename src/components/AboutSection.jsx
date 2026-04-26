@@ -102,15 +102,15 @@ export default function AboutSection() {
                     <div className="flex flex-col gap-4">
                       <div className="flex flex-col gap-1">
                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Direct Contact</span>
-                        <a href={`mailto:${contactDetails.email}`} className="text-sm font-bold text-slate-900 hover:text-sky-600 transition-colors">
-                          {contactDetails.email}
+                        <a href={`mailto:${founder.email || contactDetails.email}`} className="text-sm font-bold text-slate-900 hover:text-sky-600 transition-colors">
+                          {founder.email || contactDetails.email}
                         </a>
                       </div>
                       {founder.website && (
                         <div className="flex flex-col gap-1">
                           <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Website</span>
-                          <a href={`https://${founder.website}`} target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-slate-900 hover:text-sky-600 transition-colors">
-                            {founder.website}
+                          <a href={founder.website.startsWith('http') ? founder.website : `https://${founder.website}`} target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-slate-900 hover:text-sky-600 transition-colors">
+                            {founder.website.replace(/^https?:\/\//, '')}
                           </a>
                         </div>
                       )}
