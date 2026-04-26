@@ -86,7 +86,7 @@ export default function AboutSection() {
                     </div>
                     <div>
                       <h3 className="font-display text-2xl font-black text-slate-900">{founder.name}</h3>
-                      <p className="mt-1 text-sm font-bold uppercase tracking-[0.2em] text-sky-600">Chief Architect</p>
+                      <p className="mt-1 text-sm font-bold uppercase tracking-[0.2em] text-sky-600">{founder.role}</p>
                       <div className="mt-3 flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50/50 px-3 py-1">
                         <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
                         <span className="text-[10px] font-black uppercase text-emerald-700">Verified Founder</span>
@@ -99,11 +99,21 @@ export default function AboutSection() {
                   </p>
 
                   <div className="mt-10 flex items-center justify-between border-t border-slate-100 pt-8">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Direct Contact</span>
-                      <a href={`mailto:${contactDetails.email}`} className="text-sm font-bold text-slate-900 hover:text-sky-600 transition-colors">
-                        {contactDetails.email}
-                      </a>
+                    <div className="flex flex-col gap-4">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Direct Contact</span>
+                        <a href={`mailto:${contactDetails.email}`} className="text-sm font-bold text-slate-900 hover:text-sky-600 transition-colors">
+                          {contactDetails.email}
+                        </a>
+                      </div>
+                      {founder.website && (
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Website</span>
+                          <a href={`https://${founder.website}`} target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-slate-900 hover:text-sky-600 transition-colors">
+                            {founder.website}
+                          </a>
+                        </div>
+                      )}
                     </div>
                     <div className="h-12 w-12 rounded-full border border-slate-200 bg-slate-50 flex items-center justify-center shadow-inner">
                       <IconResolver name="Shield" className="h-5 w-5 text-sky-600" />

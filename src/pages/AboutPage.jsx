@@ -33,8 +33,12 @@ export default function AboutPage() {
           className="rounded-3xl border border-cyber-line bg-cyber-panel p-7"
         >
           <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-cyber-cyan/30 to-cyber-violet/40 font-display text-xl text-cyber-text">
-              SP
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-cyber-cyan/30 to-cyber-violet/40 font-display text-xl text-cyber-text">
+              {founder.photo ? (
+                <img src={founder.photo} alt={founder.name} className="h-full w-full object-cover" />
+              ) : (
+                <span>SP</span>
+              )}
             </div>
             <div>
               <h2 className="font-display text-xl text-cyber-text">{founder.name}</h2>

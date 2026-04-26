@@ -1339,33 +1339,64 @@ body::after {
 /* ─── Testimonial Bubble System ──────────────────────────── */
 .testimonial-bubble {
   position: relative;
-  border-radius: 2.5rem;
-  padding: 3rem;
-  background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
+  border-radius: 2rem;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    0 10px 40px -10px rgba(15, 23, 42, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.testimonial-bubble::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(800px circle at 50% 0%, color-mix(in srgb, var(--testimonial-color) 15%, transparent), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.testimonial-bubble::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg, transparent 40%, var(--testimonial-color) 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.testimonial-bubble:hover::before,
+.testimonial-bubble:hover::after {
+  opacity: 1;
 }
 
 .testimonial-bubble:hover {
   transform: translateY(-8px) scale(1.02);
-  border-color: var(--testimonial-color);
-  background: color-mix(in srgb, var(--testimonial-color) 5%, #ffffff);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: color-mix(in srgb, var(--testimonial-color) 40%, transparent);
   box-shadow: 
-    0 30px 60px -12px rgba(15, 23, 42, 0.12),
-    0 0 40px color-mix(in srgb, var(--testimonial-color) 10%, transparent);
+    0 30px 60px -12px color-mix(in srgb, var(--testimonial-color) 20%, transparent),
+    0 0 40px color-mix(in srgb, var(--testimonial-color) 10%, transparent),
+    inset 0 0 20px rgba(255, 255, 255, 1);
 }
 
 .testimonial-quote-icon {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 1rem;
-  background: color-mix(in srgb, var(--testimonial-color) 12%, transparent);
+  border-radius: 1.2rem;
+  background: color-mix(in srgb, var(--testimonial-color) 15%, transparent);
   color: var(--testimonial-color);
-  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px -3px color-mix(in srgb, var(--testimonial-color) 30%, transparent);
 }
 
 /* ─── 3D & Perspective Systems ─────────────────────────── */

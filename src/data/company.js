@@ -15,6 +15,7 @@ export const founder = {
   name: 'SURYAPRAKASH PICHAIYA',
   role: 'Founder & CEO',
   photo: '/photo.jpeg',
+  website: 'www.suryaprakashinfo.in',
   bio: 'Suryaprakash leads Cytroksys with a security-first mindset and a product engineering background focused on cloud-native delivery, performance, and long-term maintainability.',
 }
 
