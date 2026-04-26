@@ -27,30 +27,30 @@ const orbitItems = [
 
 export default function HeroVisual() {
   const prefersReducedMotion = useReducedMotion()
-  const orbitRadius = 190
+  const orbitRadius = 240
 
   return (
-    <div className="hero-visual-container relative flex h-[420px] w-full items-center justify-center overflow-hidden sm:h-[500px] lg:h-[560px]">
+    <div className="hero-visual-container relative flex h-[500px] w-full items-center justify-center overflow-visible sm:h-[550px] lg:h-[580px] lg:-mt-96">
       <Motion.div
-        className="absolute h-72 w-72 rounded-full bg-cyber-cyan/15 blur-[80px]"
-        animate={prefersReducedMotion ? undefined : { scale: [1, 1.08, 1], opacity: [0.35, 0.55, 0.35] }}
+        className="absolute h-96 w-96 rounded-full bg-cyber-cyan/15 blur-[100px]"
+        animate={prefersReducedMotion ? undefined : { scale: [1, 1.15, 1], opacity: [0.35, 0.6, 0.35] }}
         transition={prefersReducedMotion ? undefined : { duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
       <Motion.div
-        className="absolute h-80 w-80 rounded-full bg-cyber-aurora/12 blur-[100px]"
-        animate={prefersReducedMotion ? undefined : { scale: [1.06, 0.98, 1.06], opacity: [0.24, 0.4, 0.24] }}
+        className="absolute h-[30rem] w-[28rem] rounded-full bg-cyber-aurora/12 blur-[120px]"
+        animate={prefersReducedMotion ? undefined : { scale: [1.06, 0.98, 1.06], opacity: [0.24, 0.45, 0.24] }}
         transition={prefersReducedMotion ? undefined : { duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="hero-orbit-ring absolute h-[390px] w-[390px] rounded-full border border-cyber-line/70" />
-        <div className="hero-orbit-ring-outer absolute h-[500px] w-[500px] rounded-full border border-cyber-line/45" />
+        <div className="hero-orbit-ring absolute h-[480px] w-[480px] rounded-full border border-cyber-line/70" />
+        <div className="hero-orbit-ring-outer absolute h-[620px] w-[620px] rounded-full border border-cyber-line/45" />
       </div>
 
       <Motion.div
-        className="absolute inset-0"
+        className="absolute inset-0 flex items-center justify-center"
         animate={prefersReducedMotion ? undefined : { rotate: 360 }}
-        transition={prefersReducedMotion ? undefined : { duration: 38, repeat: Infinity, ease: 'linear' }}
+        transition={prefersReducedMotion ? undefined : { duration: 45, repeat: Infinity, ease: 'linear' }}
       >
         {orbitItems.map((item, index) => {
           const angle = (item.angle * Math.PI) / 180
@@ -61,11 +61,10 @@ export default function HeroVisual() {
           return (
             <Motion.div
               key={item.label}
-              className="absolute left-1/2 top-1/2"
+              className="absolute"
               initial={{ opacity: 0, scale: 0.8, x: 0, y: 0 }}
               animate={{ opacity: 1, scale: 1, x, y }}
               transition={{ duration: 0.55, delay: 0.12 + index * 0.05, ease: 'easeOut' }}
-              style={{ marginLeft: -30, marginTop: -30 }}
             >
               <div
                 className="hero-tech-logo flex items-center justify-center"
@@ -81,21 +80,33 @@ export default function HeroVisual() {
       </Motion.div>
 
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="hero-logo-aura absolute h-80 w-80 rounded-full md:h-[23rem] md:w-[23rem]" />
-        <div className="hero-logo-aura hero-logo-aura-secondary absolute h-96 w-96 rounded-full md:h-[27rem] md:w-[27rem]" />
-        <div className="hero-logo-core relative z-20 flex h-60 w-60 items-center justify-center rounded-full border border-cyber-cyan/25 bg-white/90 p-5 shadow-[0_20px_60px_rgba(15,23,42,0.18)] md:h-[18.75rem] md:w-[18.75rem] md:p-7">
-          <img
-            src="/logo-hero.png"
-            srcSet="/logo-hero.png 1x, /logo.png 2x"
-            sizes="(min-width: 1024px) 300px, 240px"
-            alt="Cytroksys"
-            width="360"
-            height="310"
-            decoding="async"
-            fetchPriority="high"
-            className="hero-logo-image h-full w-full rounded-full object-contain"
-            style={{ animation: prefersReducedMotion ? 'none' : undefined }}
-          />
+        <div className="hero-logo-aura absolute h-[20rem] w-[20rem] rounded-full md:h-[26rem] md:w-[26rem]" />
+        <div className="hero-logo-aura hero-logo-aura-secondary absolute h-[24rem] w-[24rem] rounded-full md:h-[30rem] md:w-[30rem]" />
+        <div className="relative z-20 flex flex-col items-center">
+          <div className="hero-logo-core flex h-56 w-56 items-center justify-center rounded-full border-4 border-white bg-white/95 p-5 shadow-[0_30px_80px_rgba(15,23,42,0.22)] ring-1 ring-cyber-cyan/20 sm:h-64 sm:w-64 sm:p-6 lg:h-[17rem] lg:w-[17rem] lg:p-7">
+            <img
+              src="/logo-hero.png"
+              srcSet="/logo-hero.png 1x, /logo.png 2x"
+              sizes="(min-width: 1024px) 400px, 300px"
+              alt="Cytroksys"
+              className="hero-logo-image h-full w-full rounded-full object-contain"
+              style={{ animation: prefersReducedMotion ? 'none' : undefined }}
+            />
+          </div>
+          {/* Tagline below logo */}
+          <Motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mt-4 text-center"
+          >
+            <p className="hero-visual-tagline font-display text-lg font-bold tracking-tight text-slate-800 sm:text-xl lg:text-[1.35rem]">
+              <span className="text-slate-900">Innovate</span>
+              <span className="hero-title-gradient ml-1">Securely.</span>
+              <span className="hero-title-gradient ml-1">Scale</span>
+              <span className="hero-title-gradient ml-1">Faster.</span>
+            </p>
+          </Motion.div>
         </div>
       </div>
     </div>

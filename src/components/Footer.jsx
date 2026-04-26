@@ -8,96 +8,97 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="theme-sheen-aurora border-t border-cyber-line bg-cyber-panel/80">
-      <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-14 lg:grid-cols-[1.5fr_0.9fr_1fr_1fr] md:px-6">
-        <div className="footer-brand-panel rounded-[2rem] border border-cyber-line/70 p-6 md:p-7 lg:col-span-1">
-          <Link to="/" className="mb-6 inline-flex items-center gap-3">
-            <img src="/logo-nav.png" alt="Cytroksys Logo" width="44" height="44" loading="lazy" decoding="async" className="h-11 w-11 rounded-full shadow-glow" />
-            <span>
-              <span className="block font-display text-xl tracking-tight text-cyber-text">Cytroksys</span>
-              <span className="block text-xs uppercase tracking-[0.18em] text-cyber-muted">Infotech</span>
-            </span>
-          </Link>
+    <footer className="relative overflow-hidden border-t border-slate-100 bg-[#fdfeff] pt-24 pb-12" aria-labelledby="footer-title">
+      {/* Visual Background Elements */}
+      <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-sky-200 to-transparent opacity-50" />
+      <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-sky-50/50 blur-3xl" />
+      
+      <div className="mx-auto w-full max-w-7xl px-4 md:px-6 relative z-10">
+        <div className="grid gap-16 lg:grid-cols-12">
+          
+          {/* Brand Manifesto Column */}
+          <div className="lg:col-span-5">
+            <Link to="/" className="inline-flex items-center gap-4">
+              <div className="h-12 w-12 rounded-full border border-slate-100 bg-white p-2 shadow-sm ring-1 ring-slate-100">
+                <img src="/logo-nav.png" alt="Logo" className="h-full w-full object-contain" />
+              </div>
+              <div>
+                <span className="block font-display text-2xl font-black tracking-tight text-slate-900">Cytroksys</span>
+                <span className="block text-[10px] font-bold uppercase tracking-[0.3em] text-sky-600">Digital Infotech</span>
+              </div>
+            </Link>
+            
+            <p className="mt-8 max-w-md text-lg font-medium leading-relaxed text-slate-500">
+              Engineering the digital future with zero-trust standards and founder-led technical excellence.
+            </p>
 
-          <p className="max-w-md text-sm leading-relaxed text-cyber-muted">
-            Enterprise-grade digital solutions for teams that need to ship fast without compromising reliability or security.
+            <div className="mt-10 flex flex-wrap gap-3">
+              {footerCapabilities.map((capability) => (
+                <span key={capability} className="rounded-full border border-slate-100 bg-slate-50/50 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  {capability}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Navigation & Contact Links */}
+          <div className="grid grid-cols-2 gap-8 lg:col-span-7 lg:grid-cols-3">
+            <div>
+              <h4 className="font-display text-xs font-black uppercase tracking-[0.2em] text-slate-900">Platform</h4>
+              <ul className="mt-8 space-y-4">
+                {navItems.map((item) => (
+                  <li key={item.to}>
+                    <Link to={item.to} className="text-sm font-bold text-slate-500 transition hover:text-sky-600">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-display text-xs font-black uppercase tracking-[0.2em] text-slate-900">Connect</h4>
+              <ul className="mt-8 space-y-4">
+                {socialLinks.map((link) => (
+                  <li key={link.label}>
+                    <a href={link.href} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-sm font-bold text-slate-500 transition hover:text-sky-600">
+                      <IconResolver name={link.icon} className="h-4 w-4" />
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="col-span-2 sm:col-span-1">
+              <h4 className="font-display text-xs font-black uppercase tracking-[0.2em] text-slate-900">Inquiries</h4>
+              <div className="mt-8 space-y-6">
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Main Office</span>
+                  <p className="mt-2 text-sm font-bold text-slate-700">Pudukkottai, India</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Digital Desk</span>
+                  <a href={`mailto:${contactDetails.email}`} className="mt-2 block text-sm font-bold text-slate-900 hover:text-sky-600 transition-colors">
+                    {contactDetails.email}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Legal & Meta */}
+        <div className="mt-24 flex flex-col items-center justify-between border-t border-slate-100 pt-12 md:flex-row gap-6">
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+            © {currentYear} Cytroksys Infotech. Engineered with precision.
           </p>
-
-          <div className="mt-5 flex flex-wrap gap-2">
-            {footerCapabilities.map((capability) => (
-              <span key={capability} className="footer-stack-badge rounded-full px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em]">
-                {capability}
-              </span>
-            ))}
-          </div>
-
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <div className="footer-contact-card rounded-2xl px-4 py-3">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyber-muted">Email</p>
-              <a href={`mailto:${contactDetails.email}`} className="mt-2 inline-block text-sm text-cyber-text transition hover:text-cyber-cyan">
-                {contactDetails.email}
-              </a>
-            </div>
-            <div className="footer-contact-card rounded-2xl px-4 py-3">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyber-muted">Call</p>
-              <a href={`tel:${contactDetails.phone.replace(/\s+/g, '')}`} className="mt-2 inline-block text-sm text-cyber-text transition hover:text-cyber-cyan">
-                {contactDetails.phone}
-              </a>
-            </div>
+          <div className="flex items-center gap-8">
+            <a href="#" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">Privacy Protocol</a>
+            <a href="#" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">Security Standards</a>
           </div>
         </div>
-
-        <div>
-          <p className="font-display text-xs uppercase tracking-[0.2em] text-cyber-cyan">Navigation</p>
-          <ul className="footer-link-list mt-4 space-y-3 text-sm">
-            {navItems.map((item) => (
-              <li key={item.to}>
-                <Link to={item.to} className="text-cyber-muted transition hover:text-cyber-text">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <p className="font-display text-xs uppercase tracking-[0.2em] text-cyber-cyan">Capabilities</p>
-          <ul className="footer-link-list mt-4 space-y-3 text-sm text-cyber-muted">
-            {footerCapabilities.map((capability) => (
-              <li key={capability}>
-                <span>{capability}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <p className="font-display text-xs uppercase tracking-[0.2em] text-cyber-cyan">Follow</p>
-          <div className="mt-4 flex items-center gap-3">
-            {socialLinks.map((link) => {
-              return (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`Open ${link.label}`}
-                  className="surface-panel inline-flex h-10 w-10 items-center justify-center rounded-xl border border-cyber-line bg-cyber-ink text-cyber-muted transition hover:border-cyber-cyan hover:text-cyber-cyan"
-                >
-                  <IconResolver name={link.icon} className="h-4 w-4" />
-                </a>
-              )
-            })}
-          </div>
-          <p className="mt-4 text-sm text-cyber-muted">Visit: suryaprakashinfo.in</p>
-          <p className="footer-meta-line mt-3 text-xs uppercase tracking-[0.18em] text-cyber-muted">Pudukkottai, India</p>
-        </div>
-      </div>
-
-      <div className="border-t border-cyber-line/80 px-4 py-4 text-center text-xs text-cyber-muted md:px-6">
-        © {currentYear} Cytroksys Infotech. All rights reserved.
       </div>
     </footer>
   )
 }
-

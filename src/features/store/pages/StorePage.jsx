@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { motion as Motion } from 'framer-motion'
 import StoreHero from '../components/StoreHero'
 import TrustBanner from '../components/TrustBanner'
 import ProductFilterBar from '../components/ProductFilterBar'
@@ -45,31 +46,43 @@ export default function StorePage() {
       <TrustBanner />
 
       {/* Products section */}
-      <section className="mx-auto max-w-7xl px-4 py-12 md:px-6">
-        <div className="mb-8">
-          <h2 className="font-display text-xl text-cyber-text md:text-2xl">Our Products</h2>
-          <p className="mt-1 text-sm text-cyber-muted">
-            Genuine digital licenses and subscription keys
-          </p>
-        </div>
+      <section className="relative overflow-hidden bg-[#fdfeff] py-20 md:py-28">
+        <div className="mesh-grid-light absolute inset-0 opacity-20" />
+        
+        <div className="relative mx-auto max-w-7xl px-4 md:px-6">
+          <Motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="mb-12"
+          >
+            <h2 className="font-display text-2xl font-black tracking-tight text-slate-900 md:text-3xl lg:text-4xl">
+              Explore Our <span className="text-sky-600">Digital Catalog</span>
+            </h2>
+            <p className="mt-3 max-w-xl text-sm font-medium leading-relaxed text-slate-500 md:text-base">
+              Hand-picked premium cybersecurity licenses and utility software. 
+              Authenticity guaranteed with instant delivery.
+            </p>
+          </Motion.div>
 
-        <div className="mb-8">
-          <ProductFilterBar
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            categoryFilter={categoryFilter}
-            onCategoryChange={setCategoryFilter}
-            brandFilter={brandFilter}
-            onBrandChange={setBrandFilter}
+          <div className="mb-12">
+            <ProductFilterBar
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              categoryFilter={categoryFilter}
+              onCategoryChange={setCategoryFilter}
+              brandFilter={brandFilter}
+              onBrandChange={setBrandFilter}
+            />
+          </div>
+
+          <ProductGrid
+            products={filteredProducts}
+            loading={loading}
+            error={error}
+            onOrderNow={setOrderProduct}
           />
         </div>
-
-        <ProductGrid
-          products={filteredProducts}
-          loading={loading}
-          error={error}
-          onOrderNow={setOrderProduct}
-        />
       </section>
 
       <DeliveryPromise />

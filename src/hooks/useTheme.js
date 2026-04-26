@@ -12,6 +12,7 @@ const getInitialTheme = () => {
     return stored
   }
 
+  // Default to light for a cleaner first impression
   return 'light'
 }
 

@@ -31,79 +31,105 @@ const itemVariants = {
   },
 }
 
+const vibrantColors = [
+  '#6366f1', // Electric Indigo
+  '#ec4899', // Vivid Pink
+  '#06b6d4', // Neon Teal
+  '#84cc16', // Lime Green
+]
+
 export default function TestimonialsSection() {
   return (
-    <section className="cyber-noise theme-sheen-aurora border-y border-cyber-line/60 bg-cyber-panel/40 py-20" aria-labelledby="testimonials-title">
-      <div className="mx-auto w-full max-w-7xl px-4 md:px-6">
+    <section className="relative overflow-hidden border-y border-slate-100 bg-[#fdfeff] py-24 lg:py-32" aria-labelledby="testimonials-title">
+      {/* Background patterns */}
+      <div className="mesh-grid-light absolute inset-0 opacity-20" />
+      
+      <div className="mx-auto w-full max-w-7xl px-4 md:px-6 relative z-10">
         <SectionHeading
           eyebrow="Voices of Success"
-          title="Trusted by Teams That Move Fast"
-          description="Our partners choose Cytroksys for clear communication, secure architecture, and dependable delivery under pressure."
+          title="Engineering Trusted Partnerships"
+          description="We deliver more than just code; we provide the operational stability that allows our partners to focus on growth."
           align="center"
         />
 
         <Motion.div
-          className="testimonial-grid mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4"
+          className="testimonial-grid mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {testimonials.map((testimonial, index) => (
-            <Motion.article
-              key={testimonial.name}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
-              className="testimonial-card glass-card premium-shimmer relative flex h-full flex-col overflow-hidden rounded-[1.9rem] border border-cyber-line bg-cyber-panel p-6"
-            >
-              <span
-                className="absolute bottom-0 left-0 top-0 w-1"
-                style={{ background: testimonial.accent }}
-                aria-hidden="true"
-              />
-              <div
-                className="pointer-events-none absolute -right-16 -top-16 h-32 w-32 rounded-full opacity-45 blur-2xl"
-                style={{ background: testimonial.accent }}
-                aria-hidden="true"
-              />
-              <div className="relative flex items-start justify-between gap-4">
-                <p className="testimonial-quote-mark text-4xl leading-none" style={{ color: testimonial.accent }}>
-                  "
-                </p>
-                <span className="testimonial-role-pill rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ '--testimonial-accent': testimonial.accent }}>
-                  {testimonial.role}
-                </span>
-              </div>
-              <p className="relative mt-4 flex-grow text-sm leading-relaxed text-cyber-muted/95">{testimonial.quote}</p>
-              <div className="mt-6 border-t border-cyber-line pt-4">
-                <p className="font-semibold text-cyber-text">{testimonial.name}</p>
-                <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyber-muted">{trustSignals[index % trustSignals.length]}</p>
-              </div>
-            </Motion.article>
-          ))}
+          {testimonials.map((testimonial, index) => {
+            const color = vibrantColors[index % vibrantColors.length]
+            return (
+              <Motion.article
+                key={testimonial.name}
+                variants={itemVariants}
+                className="testimonial-bubble group"
+                style={{ '--testimonial-color': color }}
+              >
+                <div className="relative z-10">
+                  <div className="testimonial-quote-icon transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">
+                    <IconResolver name="Quote" className="h-6 w-6 fill-current" />
+                  </div>
+                  
+                  <p className="text-base font-medium leading-relaxed text-slate-700 italic group-hover:text-slate-900 transition-colors">
+                    "{testimonial.quote}"
+                  </p>
+
+                  <div className="mt-10 flex items-center gap-4 border-t border-slate-100 pt-6">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-900 text-white font-bold text-sm">
+                      {testimonial.name.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="font-display text-sm font-black text-slate-900">{testimonial.name}</p>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 group-hover:text-[var(--testimonial-color)] transition-colors">
+                        {testimonial.role}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Micro-sparkle effect */}
+                <div className="absolute top-6 right-6 h-1 w-1 rounded-full bg-[var(--testimonial-color)] opacity-0 group-hover:opacity-100 transition-opacity animate-ping" />
+              </Motion.article>
+            )
+          })}
         </Motion.div>
 
-        <div className="surface-panel gradient-drift mt-12 rounded-[2rem] border border-cyber-cyan/40 p-8 md:flex md:items-center md:justify-between">
-          <div>
-            <p className="font-display text-2xl text-cyber-text">Ready to Scale with Confidence?</p>
-            <p className="mt-2 max-w-xl text-sm text-cyber-muted">
-              Partner with Cytroksys to launch secure systems, streamline operations, and accelerate delivery across your digital roadmap.
-            </p>
+        <Motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="vibrant-glow-hover group relative mt-20 overflow-hidden rounded-[3rem] bg-slate-900 p-10 md:p-14 text-center md:text-left"
+          style={{ '--fill-color': '#0ea5e9' }}
+        >
+          <div className="relative z-10 md:flex md:items-center md:justify-between gap-10">
+            <div>
+              <h3 className="font-display text-3xl font-black text-white md:text-4xl">Ready to architect your future?</h3>
+              <p className="mt-4 max-w-xl text-lg text-slate-400 leading-relaxed">
+                Join the network of high-growth companies leveraging our zero-trust engineering standards.
+              </p>
+            </div>
+            <div className="mt-10 flex shrink-0 flex-wrap items-center justify-center gap-4 md:mt-0">
+              <div className="hidden lg:flex -space-x-3 overflow-hidden">
+                {vibrantColors.map((c, i) => (
+                  <div key={i} className="inline-block h-10 w-10 rounded-full border-2 border-slate-900" style={{ backgroundColor: c }} />
+                ))}
+              </div>
+              <Link
+                to="/contact"
+                className="group relative flex h-14 items-center gap-3 rounded-full bg-white px-8 text-sm font-bold text-slate-900 transition-transform hover:scale-105 active:scale-95"
+              >
+                Start Your Track
+                <IconResolver name="ArrowRight" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
           </div>
-          <div className="mt-5 flex flex-wrap items-center gap-3 md:mt-0">
-            <span className="testimonial-cta-pill rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyber-text">
-              Founder-led
-            </span>
-            <Link
-              to="/contact"
-              className="brand-cta premium-shimmer inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-cyber-ink"
-            >
-              Get Started
-              <IconResolver name="ArrowRight" className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
+          
+          {/* Background light streak */}
+          <div className="absolute -left-1/4 -top-1/2 h-full w-full rotate-45 bg-gradient-to-r from-transparent via-white/5 to-transparent blur-3xl" />
+        </Motion.div>
       </div>
     </section>
   )

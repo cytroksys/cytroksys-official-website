@@ -1,4 +1,5 @@
-import { motion as Motion } from 'framer-motion'
+import { motion as Motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { useRef } from 'react'
 import {
   Atom,
   BrainCircuit,
@@ -35,10 +36,7 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.05,
-      delayChildren: 0.1,
-    },
+    transition: { staggerChildren: 0.05, delayChildren: 0.1 },
   },
 }
 
@@ -66,8 +64,10 @@ const stackDescriptions = {
 
 export default function TechStackSection() {
   return (
-    <section className="cyber-noise border-y border-cyber-line/60 py-20" aria-labelledby="stack-title">
-      <div className="mx-auto w-full max-w-7xl px-4 md:px-6">
+    <section className="relative overflow-hidden border-y border-slate-100 bg-[#fdfeff] py-24 lg:py-32" aria-labelledby="stack-title">
+      <div className="data-stream-bg absolute inset-0 opacity-[0.4]" />
+      
+      <div className="mx-auto w-full max-w-7xl px-4 md:px-6 relative z-10">
         <SectionHeading
           eyebrow="Tech Stack"
           title="Modern Tools for Modern Problems"
@@ -80,46 +80,10 @@ export default function TechStackSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3"
+          className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
           {techStack.map((tool) => (
-            <Motion.article
-              key={tool.name}
-              variants={itemVariants}
-              whileHover={{ y: -5, scale: 1.01 }}
-              transition={{ duration: 0.18, ease: 'easeOut' }}
-              className="tech-tile tech-stack-card group relative flex min-h-[210px] flex-col overflow-hidden rounded-[1.75rem] border border-cyber-line p-5"
-              style={{ '--stack-color': tool.color }}
-            >
-              <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full opacity-30 blur-2xl transition duration-300 group-hover:opacity-60" style={{ background: tool.color }} />
-              <div className="relative flex items-start justify-between gap-3">
-                <div className="flex items-center gap-4">
-                  <div className="surface-panel tech-stack-icon inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-cyber-line text-2xl">
-                    <StackIcon name={tool.icon} color={tool.color} />
-                  </div>
-                  <div>
-                    <p className="font-display text-base text-cyber-text">{tool.name}</p>
-                    <p className="mt-1 text-xs uppercase tracking-[0.15em] text-cyber-muted">Production-ready</p>
-                  </div>
-                </div>
-                <span className="stack-category-badge rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ '--stack-color': tool.color }}>
-                  {tool.category}
-                </span>
-              </div>
-
-              <p className="relative mt-5 text-sm leading-relaxed text-cyber-muted/95">
-                {stackDescriptions[tool.category] ?? 'Modern tooling selected for speed, reliability, and long-term maintainability.'}
-              </p>
-
-              <div className="relative mt-auto flex flex-wrap gap-2 pt-5">
-                <span className="stack-signal-pill rounded-full px-3 py-1.5 text-[11px] font-medium" style={{ '--stack-color': tool.color }}>
-                  Secure by default
-                </span>
-                <span className="stack-signal-pill rounded-full px-3 py-1.5 text-[11px] font-medium" style={{ '--stack-color': tool.color }}>
-                  Fast delivery
-                </span>
-              </div>
-            </Motion.article>
+            <TiltCard key={tool.name} tool={tool} />
           ))}
         </Motion.div>
       </div>
@@ -127,13 +91,84 @@ export default function TechStackSection() {
   )
 }
 
-function StackIcon({ name, color }) {
-  const Icon = iconMap[name]
+function TiltCard({ tool }) {
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
 
-  if (!Icon) {
-    return <span className="font-display text-xs text-cyber-text">TS</span>
+  const mouseXSpring = useSpring(x)
+  const mouseYSpring = useSpring(y)
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["17.5deg", "-17.5deg"])
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-17.5deg", "17.5deg"])
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const width = rect.width
+    const height = rect.height
+    const mouseX = e.clientX - rect.left
+    const mouseY = e.clientY - rect.top
+    const xPct = mouseX / width - 0.5
+    const yPct = mouseY / height - 0.5
+    x.set(xPct)
+    y.set(yPct)
   }
 
-  return <Icon style={{ color }} aria-hidden="true" />
+  const handleMouseLeave = () => {
+    x.set(0)
+    y.set(0)
+  }
+
+  return (
+    <Motion.article
+      variants={itemVariants}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      className="perspective-1000 group relative flex min-h-[220px] flex-col overflow-hidden rounded-[2.5rem] border border-slate-200 bg-white/80 p-8 shadow-sm backdrop-blur-md transition-colors hover:bg-white hover:border-[var(--stack-color)]"
+    >
+      <div 
+        style={{ transform: "translateZ(50px)", "--stack-color": tool.color }} 
+        className="relative z-10 flex h-full flex-col"
+      >
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-50 shadow-inner ring-1 ring-slate-200/50 transition-transform group-hover:scale-110" style={{ color: tool.color }}>
+              <StackIcon name={tool.icon} color={tool.color} />
+            </div>
+            <div>
+              <p className="font-display text-lg font-black text-slate-900">{tool.name}</p>
+              <div className="mt-1 flex items-center gap-1.5">
+                <div className="h-1 w-1 rounded-full bg-emerald-500" />
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Production Ready</p>
+              </div>
+            </div>
+          </div>
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-500 group-hover:bg-[var(--stack-color)] group-hover:text-white transition-colors">
+            {tool.category}
+          </span>
+        </div>
+
+        <p className="mt-6 text-sm font-medium leading-relaxed text-slate-500 group-hover:text-slate-700">
+          {stackDescriptions[tool.category] ?? 'Modern tooling selected for speed, reliability, and long-term maintainability.'}
+        </p>
+
+        <div className="mt-auto pt-8 flex items-center gap-3">
+          <div className="h-px flex-1 bg-slate-100 group-hover:bg-[var(--stack-color)] opacity-30 transition-colors" />
+          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-slate-900">Stack Active</span>
+        </div>
+      </div>
+
+      {/* Decorative 3D elements */}
+      <div 
+        className="absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-10 blur-3xl transition-opacity group-hover:opacity-30" 
+        style={{ background: tool.color, transform: "translateZ(-20px)" }} 
+      />
+    </Motion.article>
+  )
 }
 
+function StackIcon({ name, color }) {
+  const Icon = iconMap[name]
+  if (!Icon) return <span className="font-display text-xs text-slate-900">TS</span>
+  return <Icon size={28} style={{ color }} aria-hidden="true" />
+}

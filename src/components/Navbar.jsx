@@ -5,149 +5,170 @@ import { navItems } from '../data/company'
 import { IconResolver } from './IconResolver'
 
 const linkClass = ({ isActive }) =>
-  `navbar-link-pill relative inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold tracking-[0.01em] transition-all duration-300 ${
-    isActive ? 'is-active text-white' : 'text-cyber-muted hover:text-cyber-text'
+  `navbar-link-pill relative inline-flex items-center justify-center rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 ${
+    isActive ? 'is-active text-white' : 'text-slate-500 hover:text-sky-600'
   }`
 
 export default function Navbar({ theme, onToggleTheme }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40)
+      const currentScrollY = window.scrollY
+      
+      // Scrolled state for visual styling
+      setScrolled(currentScrollY > 40)
+
+      // Visibility state for hiding on scroll down, showing on scroll up
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down & not at the very top
+        setIsVisible(false)
+      } else {
+        // Scrolling up
+        setIsVisible(true)
+      }
+      
+      setLastScrollY(currentScrollY)
     }
+    
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [lastScrollY])
 
   return (
-    <header
-      className={`header-shell sticky top-0 z-40 transition-all duration-500 ${
-        scrolled
-          ? 'navbar-scrolled backdrop-blur-2xl'
-          : 'backdrop-blur-xl'
+    <Motion.header
+      initial={{ y: 0 }}
+      animate={{ 
+        y: isVisible ? 0 : -120,
+        opacity: isVisible ? 1 : 0
+      }}
+      transition={{ 
+        duration: 0.4, 
+        ease: [0.16, 1, 0.3, 1] 
+      }}
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+        scrolled ? 'py-4' : 'py-8'
       }`}
     >
-      <div className="navbar-inner mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-6">
-        <Link to="/" aria-label="Go to Cytroksys homepage" className="navbar-brand group inline-flex items-center gap-3 rounded-[1.4rem] px-2 py-1.5">
-          <div className="navbar-logo-ring relative shrink-0">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 md:px-6">
+        {/* Brand Liquid Logo */}
+        <Link 
+          to="/" 
+          className={`group flex items-center gap-4 rounded-[2rem] border border-slate-100 bg-white/80 p-2 pr-6 shadow-sm backdrop-blur-2xl transition-all duration-500 hover:shadow-xl hover:shadow-sky-500/10 ${scrolled ? 'scale-95' : 'scale-100'}`}
+        >
+          <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full border-2 border-white shadow-md ring-1 ring-slate-100">
+            <div className="absolute inset-0 animate-pulse bg-sky-400/20" />
             <img 
               src="/logo-nav.png" 
-              alt="Cytroksys Logo" 
-              width="40"
-              height="40"
-              decoding="async"
-              className="site-logo-clean h-10 w-10 rounded-full object-contain"
+              alt="Logo" 
+              className="relative z-10 h-full w-full object-contain transition-transform duration-500 group-hover:scale-110"
             />
           </div>
-          <div className="hidden min-w-0 sm:block">
-            <p className="font-display text-sm uppercase tracking-[0.16em] text-cyber-text transition-colors duration-300 group-hover:text-cyber-cyan">Cytroksys</p>
-            <p className="text-xs tracking-[0.12em] text-cyber-muted">Infotech</p>
+          <div>
+            <p className="font-display text-sm font-black uppercase tracking-tight text-slate-900">
+              Cytroksys
+            </p>
+            <div className="flex items-center gap-1.5">
+              <div className="h-1 w-1 rounded-full bg-sky-500" />
+              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-sky-600">Infotech</p>
+            </div>
           </div>
         </Link>
 
-        <nav className="navbar-nav-shell hidden items-center gap-2 rounded-full px-2 py-1.5 md:flex" aria-label="Primary navigation">
+        {/* Floating Nav Shell */}
+        <nav className={`navbar-nav-shell hidden items-center gap-2 rounded-full border border-slate-100 bg-white/60 p-1.5 backdrop-blur-2xl shadow-sm transition-all duration-500 md:flex ${scrolled ? 'translate-y-0 opacity-100' : 'translate-y-0 opacity-100'}`}>
           {navItems.map((item) => (
             <NavLink key={item.to} to={item.to} className={linkClass}>
               {({ isActive }) => (
-                <>
+                <span className="relative z-10">
                   {item.label}
                   {isActive && (
                     <Motion.span
                       layoutId="nav-active-indicator"
-                      className="navbar-active-indicator absolute inset-0 -z-10 rounded-full"
+                      className="absolute inset-0 -mx-5 -my-2.5 -z-10 rounded-full bg-slate-900 shadow-lg shadow-slate-900/20"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
-                </>
+                </span>
               )}
             </NavLink>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        {/* Action Controls */}
+        <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={onToggleTheme}
-            className="theme-toggle-btn surface-panel inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-cyber-line/75 bg-cyber-panel text-cyber-text transition hover:border-cyber-cyan hover:shadow-glow/30"
-            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="group flex h-12 w-12 items-center justify-center rounded-[1.5rem] border border-slate-100 bg-white shadow-sm transition-all hover:bg-slate-50 hover:shadow-lg active:scale-95"
+            aria-label="Toggle theme"
           >
             <Motion.div
               key={theme}
               initial={{ rotate: -90, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <IconResolver name={theme === 'dark' ? 'Sun' : 'Moon'} className="h-4 w-4" />
+              <IconResolver name={theme === 'dark' ? 'Sun' : 'Moon'} className="h-5 w-5 text-slate-700 group-hover:text-sky-600" />
             </Motion.div>
           </button>
+
           <Link
             to="/contact"
-            className="brand-cta premium-shimmer inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-cyber-ink transition"
+            className="group relative hidden h-12 items-center gap-3 overflow-hidden rounded-[1.5rem] bg-slate-900 px-6 text-xs font-black uppercase tracking-widest text-white shadow-lg transition-transform hover:scale-105 active:scale-95 sm:flex"
           >
-            Get a Quote
-            <IconResolver name="ArrowRight" className="h-4 w-4" />
+            <span className="relative z-10">Get a Quote</span>
+            <IconResolver name="ArrowRight" className="relative z-10 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <div className="absolute inset-0 z-0 bg-gradient-to-r from-sky-600 to-indigo-600 opacity-0 transition-opacity group-hover:opacity-100" />
           </Link>
-        </div>
 
-        <button
-          type="button"
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          aria-label="Toggle navigation menu"
-          onClick={() => setOpen((value) => !value)}
-          className="surface-panel inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-cyber-line/75 bg-cyber-panel text-cyber-text transition hover:border-cyber-cyan md:hidden"
-        >
-          <IconResolver name={open ? 'X' : 'Menu'} className="h-4 w-4" />
-        </button>
+          {/* Mobile Trigger */}
+          <button
+            type="button"
+            onClick={() => setOpen(!open)}
+            className="flex h-12 w-12 items-center justify-center rounded-[1.5rem] border border-slate-100 bg-white shadow-sm md:hidden"
+          >
+            <IconResolver name={open ? 'X' : 'Menu'} className="h-5 w-5 text-slate-900" />
+          </button>
+        </div>
       </div>
 
+      {/* Mobile Drawer */}
       <AnimatePresence>
-        {open ? (
-          <Motion.nav
-            id="mobile-nav"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.24, ease: 'easeOut' }}
-            className="navbar-mobile-panel overflow-hidden px-4 pb-4 pt-3 md:hidden"
-            aria-label="Mobile navigation"
+        {open && (
+          <Motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute inset-x-4 top-full mt-4 rounded-[2.5rem] border border-slate-100 bg-white p-6 shadow-2xl backdrop-blur-3xl md:hidden"
           >
             <div className="flex flex-col gap-4">
               {navItems.map((item) => (
-                <NavLink
+                <Link
                   key={item.to}
                   to={item.to}
-                  className={linkClass}
                   onClick={() => setOpen(false)}
+                  className="flex items-center justify-between rounded-2xl bg-slate-50 p-4 text-sm font-black uppercase tracking-widest text-slate-900 transition-colors hover:bg-sky-50 hover:text-sky-600"
                 >
                   {item.label}
-                </NavLink>
-              ))}
-              <div className="mt-2 flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={onToggleTheme}
-                  className="surface-panel inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-cyber-line/75 bg-cyber-ink text-cyber-text"
-                  aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                >
-                  <IconResolver name={theme === 'dark' ? 'Sun' : 'Moon'} className="h-4 w-4" />
-                </button>
-                <Link
-                  to="/contact"
-                  onClick={() => setOpen(false)}
-                  className="brand-cta premium-shimmer inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-cyber-ink"
-                >
-                  Get a Quote
-                  <IconResolver name="ArrowRight" className="h-4 w-4" />
+                  <IconResolver name="ChevronRight" className="h-4 w-4 opacity-30" />
                 </Link>
-              </div>
+              ))}
+              <Link
+                to="/contact"
+                onClick={() => setOpen(false)}
+                className="mt-2 flex items-center justify-center gap-3 rounded-2xl bg-slate-900 p-4 text-xs font-black uppercase tracking-widest text-white"
+              >
+                Get a Quote
+                <IconResolver name="ArrowRight" className="h-4 w-4" />
+              </Link>
             </div>
-          </Motion.nav>
-        ) : null}
+          </Motion.div>
+        )}
       </AnimatePresence>
-    </header>
+    </Motion.header>
   )
 }
