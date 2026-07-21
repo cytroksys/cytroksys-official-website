@@ -83,13 +83,13 @@ export default function HeroVisual() {
         <div className="hero-logo-aura absolute h-[20rem] w-[20rem] rounded-full md:h-[26rem] md:w-[26rem]" />
         <div className="hero-logo-aura hero-logo-aura-secondary absolute h-[24rem] w-[24rem] rounded-full md:h-[30rem] md:w-[30rem]" />
         <div className="relative z-20 flex flex-col items-center">
-          <div className="hero-logo-core flex h-56 w-56 items-center justify-center rounded-full border-4 border-white bg-white/95 p-5 shadow-[0_30px_80px_rgba(15,23,42,0.22)] ring-1 ring-cyber-cyan/20 sm:h-64 sm:w-64 sm:p-6 lg:h-[17rem] lg:w-[17rem] lg:p-7">
+          <div className="hero-logo-core flex h-56 w-56 items-center justify-center rounded-full p-5 sm:h-64 sm:w-64 sm:p-6 lg:h-[17rem] lg:w-[17rem] lg:p-7">
             <img
               src="/logo-hero.png"
               srcSet="/logo-hero.png 1x, /logo.png 2x"
               sizes="(min-width: 1024px) 400px, 300px"
               alt="Cytroksys"
-              className="hero-logo-image h-full w-full rounded-full object-contain"
+              className="hero-logo-image h-full w-full rounded-full bg-white/95 object-contain"
               style={{ animation: prefersReducedMotion ? 'none' : undefined }}
             />
           </div>
@@ -100,8 +100,8 @@ export default function HeroVisual() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-4 text-center"
           >
-            <p className="hero-visual-tagline font-display text-lg font-bold tracking-tight text-slate-800 sm:text-xl lg:text-[1.35rem]">
-              <span className="text-slate-900">Innovate</span>
+            <p className="hero-visual-tagline font-display text-lg font-bold tracking-tight text-cyber-text sm:text-xl lg:text-[1.35rem]">
+              <span className="text-cyber-text">Innovate</span>
               <span className="hero-title-gradient ml-1">Securely.</span>
               <span className="hero-title-gradient ml-1">Scale</span>
               <span className="hero-title-gradient ml-1">Faster.</span>

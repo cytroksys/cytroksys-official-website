@@ -64,7 +64,7 @@ const stackDescriptions = {
 
 export default function TechStackSection() {
   return (
-    <section className="relative overflow-hidden border-y border-slate-100 bg-[#fdfeff] py-24 lg:py-32" aria-labelledby="stack-title">
+    <section className="relative overflow-hidden border-y border-cyber-line bg-cyber-ink py-24 lg:py-32" aria-labelledby="stack-title">
       <div className="data-stream-bg absolute inset-0 opacity-[0.4]" />
       
       <div className="mx-auto w-full max-w-7xl px-4 md:px-6 relative z-10">
@@ -124,7 +124,7 @@ function TiltCard({ tool }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="perspective-1000 group relative flex min-h-[220px] flex-col overflow-hidden rounded-[2.5rem] border border-slate-200 bg-white/80 p-8 shadow-sm backdrop-blur-md transition-colors hover:bg-white hover:border-[var(--stack-color)]"
+      className="perspective-1000 group relative flex min-h-[220px] flex-col overflow-hidden rounded-[2.5rem] border border-cyber-line bg-cyber-panel/80 p-8 shadow-sm backdrop-blur-md transition-colors hover:bg-cyber-panel hover:border-[var(--stack-color)]"
     >
       <div 
         style={{ transform: "translateZ(50px)", "--stack-color": tool.color }} 
@@ -132,29 +132,29 @@ function TiltCard({ tool }) {
       >
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-50 shadow-inner ring-1 ring-slate-200/50 transition-transform group-hover:scale-110" style={{ color: tool.color }}>
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyber-panel-soft shadow-inner ring-1 ring-cyber-line transition-transform group-hover:scale-110" style={{ color: tool.color }}>
               <StackIcon name={tool.icon} color={tool.color} />
             </div>
             <div>
-              <p className="font-display text-lg font-black text-slate-900">{tool.name}</p>
+              <p className="font-display text-lg font-black text-cyber-text">{tool.name}</p>
               <div className="mt-1 flex items-center gap-1.5">
                 <div className="h-1 w-1 rounded-full bg-emerald-500" />
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Production Ready</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-cyber-muted">Production Ready</p>
               </div>
             </div>
           </div>
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-500 group-hover:bg-[var(--stack-color)] group-hover:text-white transition-colors">
+          <span className="rounded-full bg-cyber-surface-3 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-cyber-muted group-hover:bg-[var(--stack-color)] group-hover:text-white transition-colors">
             {tool.category}
           </span>
         </div>
 
-        <p className="mt-6 text-sm font-medium leading-relaxed text-slate-500 group-hover:text-slate-700">
+        <p className="mt-6 text-sm font-medium leading-relaxed text-cyber-muted group-hover:text-cyber-text">
           {stackDescriptions[tool.category] ?? 'Modern tooling selected for speed, reliability, and long-term maintainability.'}
         </p>
 
         <div className="mt-auto pt-8 flex items-center gap-3">
-          <div className="h-px flex-1 bg-slate-100 group-hover:bg-[var(--stack-color)] opacity-30 transition-colors" />
-          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-slate-900">Stack Active</span>
+          <div className="h-px flex-1 bg-cyber-line group-hover:bg-[var(--stack-color)] opacity-50 transition-colors" />
+          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-cyber-muted group-hover:text-cyber-text">Stack Active</span>
         </div>
       </div>
 
@@ -169,6 +169,6 @@ function TiltCard({ tool }) {
 
 function StackIcon({ name, color }) {
   const Icon = iconMap[name]
-  if (!Icon) return <span className="font-display text-xs text-slate-900">TS</span>
+  if (!Icon) return <span className="font-display text-xs text-cyber-text">TS</span>
   return <Icon size={28} style={{ color }} aria-hidden="true" />
 }

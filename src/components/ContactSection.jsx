@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { motion as Motion } from 'framer-motion'
+import { motion as Motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import emailjs from '@emailjs/browser'
 import { contactDetails } from '../data/company'
 import { IconResolver } from './IconResolver'
@@ -77,7 +77,7 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="theme-sheen-violet mx-auto w-full max-w-7xl px-4 py-20 md:px-6" aria-labelledby="contact-title">
+    <section id="contact" className="theme-sheen-violet mx-auto w-full max-w-7xl scroll-mt-28 px-4 py-20 md:px-6" aria-labelledby="contact-title">
       <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="space-y-6">
           <SectionHeading
@@ -214,12 +214,37 @@ export default function ContactSection() {
 }
 
 function Detail({ icon, label, value, href }) {
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const mouseXSpring = useSpring(x)
+  const mouseYSpring = useSpring(y)
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['12deg', '-12deg'])
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-12deg', '12deg'])
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const mouseX = e.clientX - rect.left
+    const mouseY = e.clientY - rect.top
+    x.set(mouseX / rect.width - 0.5)
+    y.set(mouseY / rect.height - 0.5)
+  }
+
+  const handleMouseLeave = () => {
+    x.set(0)
+    y.set(0)
+  }
+
   return (
-    <div className="contact-detail-card flex items-start gap-3 rounded-2xl border border-cyber-line bg-cyber-panel p-4">
-      <span className="contact-detail-icon inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-cyber-ink text-cyber-cyan">
+    <Motion.div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+      className="perspective-1000 group relative overflow-hidden contact-detail-card flex items-start gap-3 rounded-2xl border border-cyber-line bg-cyber-panel p-4 transition-all hover:shadow-xl hover:shadow-cyber-cyan/10"
+    >
+      <span style={{ transform: 'translateZ(20px)' }} className="contact-detail-icon inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-cyber-ink text-cyber-cyan">
         <IconResolver name={icon} className="h-4 w-4" />
       </span>
-      <span>
+      <span style={{ transform: 'translateZ(20px)' }}>
         <p className="text-xs uppercase tracking-[0.14em] text-cyber-muted">{label}</p>
         {href ? (
           <a href={href} className="mt-1 inline-block text-sm text-cyber-text transition hover:text-cyber-cyan">
@@ -229,7 +254,12 @@ function Detail({ icon, label, value, href }) {
           <p className="mt-1 text-sm text-cyber-text">{value}</p>
         )}
       </span>
-    </div>
+
+      <div
+        className="pointer-events-none absolute -right-4 -top-4 h-24 w-24 rounded-full opacity-0 blur-3xl transition-all group-hover:opacity-20"
+        style={{ background: 'var(--color-cyan)', transform: 'translateZ(-20px)' }}
+      />
+    </Motion.div>
   )
 }
 

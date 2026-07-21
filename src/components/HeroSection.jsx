@@ -96,7 +96,7 @@ export default function HeroSection() {
             variants={titleContainer}
             initial="hidden"
             animate="visible"
-            className="mt-6 max-w-4xl font-display text-4xl leading-[1.1] tracking-tighter text-slate-900 sm:text-5xl md:text-6xl lg:text-[4.2rem] xl:text-[4.8rem]"
+            className="mt-6 max-w-4xl font-display text-4xl leading-[1.1] tracking-tighter text-cyber-text sm:text-5xl md:text-6xl lg:text-[4.2rem] xl:text-[4.8rem]"
           >
             {titleText.split(' ').map((word, i) => (
               <span key={i} className="inline-block overflow-hidden align-bottom pb-1">

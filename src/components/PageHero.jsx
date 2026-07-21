@@ -2,7 +2,7 @@ import { motion as Motion } from 'framer-motion'
 
 export default function PageHero({ title, description }) {
   return (
-    <section className="theme-sheen-cyan cyber-noise relative overflow-hidden border-b border-cyber-line/60 bg-cyber-panel/40 py-20 md:py-24">
+    <section className="theme-sheen-cyan cyber-noise relative overflow-hidden border-b border-cyber-line/60 bg-cyber-panel/40 pt-28 pb-20 md:pt-36 md:pb-24">
       <div className="hero-mesh pointer-events-none absolute inset-0" aria-hidden="true" />
       <div className="cyber-grid-overlay pointer-events-none absolute inset-0 opacity-30" aria-hidden="true" />
       <div className="mx-auto w-full max-w-7xl px-4 md:px-6">

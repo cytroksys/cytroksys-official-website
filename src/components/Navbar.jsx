@@ -6,7 +6,7 @@ import { IconResolver } from './IconResolver'
 
 const linkClass = ({ isActive }) =>
   `navbar-link-pill relative inline-flex items-center justify-center rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 ${
-    isActive ? 'is-active text-white' : 'text-slate-500 hover:text-sky-600'
+    isActive ? 'is-active text-white' : 'text-cyber-muted hover:text-cyber-cyan'
   }`
 
 export default function Navbar({ theme, onToggleTheme }) {
@@ -70,10 +70,10 @@ export default function Navbar({ theme, onToggleTheme }) {
         {/* Brand Liquid Logo */}
         <Link 
           to="/" 
-          className={`group flex items-center gap-4 rounded-[2rem] border border-slate-100 bg-white/80 p-2 pr-6 shadow-sm backdrop-blur-2xl transition-all duration-500 hover:shadow-xl hover:shadow-sky-500/10 ${scrolled ? 'scale-95' : 'scale-100'}`}
+          className={`group flex items-center gap-4 rounded-[2rem] border border-cyber-line bg-cyber-panel/80 p-2 pr-6 shadow-sm backdrop-blur-2xl transition-all duration-500 hover:shadow-xl hover:shadow-cyber-cyan/10 ${scrolled ? 'scale-95' : 'scale-100'}`}
         >
-          <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full border-2 border-white shadow-md ring-1 ring-slate-100">
-            <div className="absolute inset-0 animate-pulse bg-sky-400/20" />
+          <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full border-2 border-cyber-panel bg-white/95 shadow-md ring-1 ring-cyber-line">
+            <div className="absolute inset-0 animate-pulse bg-cyber-cyan/20" />
             <img 
               src="/logo-nav.png" 
               alt="Logo" 
@@ -81,18 +81,18 @@ export default function Navbar({ theme, onToggleTheme }) {
             />
           </div>
           <div>
-            <p className="font-display text-sm font-black uppercase tracking-tight text-slate-900">
+            <p className="font-display text-sm font-black uppercase tracking-tight text-cyber-text">
               Cytroksys
             </p>
             <div className="flex items-center gap-1.5">
-              <div className="h-1 w-1 rounded-full bg-sky-500" />
-              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-sky-600">Infotech</p>
+              <div className="h-1 w-1 rounded-full bg-cyber-cyan" />
+              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-cyber-cyan">Infotech</p>
             </div>
           </div>
         </Link>
 
         {/* Floating Nav Shell */}
-        <nav className={`navbar-nav-shell hidden items-center gap-2 rounded-full border border-slate-100 bg-white/60 p-1.5 backdrop-blur-2xl shadow-sm transition-all duration-500 md:flex ${scrolled ? 'translate-y-0 opacity-100' : 'translate-y-0 opacity-100'}`}>
+        <nav className={`navbar-nav-shell hidden items-center gap-2 rounded-full border border-cyber-line bg-cyber-panel/60 p-1.5 backdrop-blur-2xl shadow-sm transition-all duration-500 md:flex ${scrolled ? 'translate-y-0 opacity-100' : 'translate-y-0 opacity-100'}`}>
           {navItems.map((item) => (
             <NavLink key={item.to} to={item.to} className={linkClass}>
               {({ isActive }) => (
@@ -116,7 +116,7 @@ export default function Navbar({ theme, onToggleTheme }) {
           <button
             type="button"
             onClick={onToggleTheme}
-            className="group flex h-12 w-12 items-center justify-center rounded-[1.5rem] border border-slate-100 bg-white shadow-sm transition-all hover:bg-slate-50 hover:shadow-lg active:scale-95"
+            className="group flex h-12 w-12 items-center justify-center rounded-[1.5rem] border border-cyber-line bg-cyber-panel shadow-sm transition-all hover:bg-cyber-panel-soft hover:shadow-lg active:scale-95"
             aria-label="Toggle theme"
           >
             <Motion.div
@@ -125,7 +125,7 @@ export default function Navbar({ theme, onToggleTheme }) {
               animate={{ rotate: 0, opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <IconResolver name={theme === 'dark' ? 'Sun' : 'Moon'} className="h-5 w-5 text-slate-700 group-hover:text-sky-600" />
+              <IconResolver name={theme === 'dark' ? 'Sun' : 'Moon'} className="h-5 w-5 text-cyber-muted group-hover:text-cyber-cyan" />
             </Motion.div>
           </button>
 
@@ -135,16 +135,16 @@ export default function Navbar({ theme, onToggleTheme }) {
           >
             <span className="relative z-10">Get a Quote</span>
             <IconResolver name="ArrowRight" className="relative z-10 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            <div className="absolute inset-0 z-0 bg-gradient-to-r from-sky-600 to-indigo-600 opacity-0 transition-opacity group-hover:opacity-100" />
+            <div className="absolute inset-0 z-0 bg-gradient-to-r from-cyber-cyan to-cyber-violet opacity-0 transition-opacity group-hover:opacity-100" />
           </Link>
 
           {/* Mobile Trigger */}
           <button
             type="button"
             onClick={() => setOpen(!open)}
-            className="flex h-12 w-12 items-center justify-center rounded-[1.5rem] border border-slate-100 bg-white shadow-sm md:hidden"
+            className="flex h-12 w-12 items-center justify-center rounded-[1.5rem] border border-cyber-line bg-cyber-panel shadow-sm md:hidden"
           >
-            <IconResolver name={open ? 'X' : 'Menu'} className="h-5 w-5 text-slate-900" />
+            <IconResolver name={open ? 'X' : 'Menu'} className="h-5 w-5 text-cyber-text" />
           </button>
         </div>
       </div>
@@ -156,7 +156,7 @@ export default function Navbar({ theme, onToggleTheme }) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute inset-x-4 top-full mt-4 rounded-[2.5rem] border border-slate-100 bg-white p-6 shadow-2xl backdrop-blur-3xl md:hidden"
+            className="absolute inset-x-4 top-full mt-4 rounded-[2.5rem] border border-cyber-line bg-cyber-panel p-6 shadow-2xl backdrop-blur-3xl md:hidden"
           >
             <div className="flex flex-col gap-4">
               {navItems.map((item) => (
@@ -164,7 +164,7 @@ export default function Navbar({ theme, onToggleTheme }) {
                   key={item.to}
                   to={item.to}
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-between rounded-2xl bg-slate-50 p-4 text-sm font-black uppercase tracking-widest text-slate-900 transition-colors hover:bg-sky-50 hover:text-sky-600"
+                  className="flex items-center justify-between rounded-2xl bg-cyber-panel-soft p-4 text-sm font-black uppercase tracking-widest text-cyber-text transition-colors hover:bg-cyber-cyan/10 hover:text-cyber-cyan"
                 >
                   {item.label}
                   <IconResolver name="ChevronRight" className="h-4 w-4 opacity-30" />

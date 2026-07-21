@@ -322,7 +322,7 @@ export default function VyanaAssistant() {
                       className={`max-w-[95%] whitespace-pre-line rounded-2xl px-3 py-2.5 text-sm leading-relaxed ${
                         message.from === 'assistant'
                           ? 'mr-auto border border-cyber-line bg-cyber-panel text-cyber-muted'
-                          : 'ml-auto bg-gradient-to-r from-cyber-cyan to-cyber-violet text-[#04101f]'
+                          : 'ml-auto bg-gradient-to-r from-cyber-cyan to-cyber-violet text-white'
                       }`}
                     >
                       {message.text}
@@ -351,7 +351,7 @@ export default function VyanaAssistant() {
                   <button
                     type="submit"
                     disabled={typing || !input.trim()}
-                    className="inline-flex h-11 min-w-[96px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyber-cyan to-cyber-violet px-4 text-sm font-semibold text-[#031018] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="inline-flex h-11 min-w-[96px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyber-cyan to-cyber-violet px-4 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
                     aria-label="Send message"
                   >
                     {typing ? 'Sending' : 'Send'}
