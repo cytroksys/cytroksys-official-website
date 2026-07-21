@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { useState, useRef, useEffect } from 'react'
+import { NavLink, Link, useLocation } from 'react-router-dom'
 import { motion as Motion, AnimatePresence } from 'framer-motion'
 import { navItems } from '../data/company'
 import { IconResolver } from './IconResolver'
 
 const linkClass = ({ isActive }) =>
-  `navbar-link-pill relative inline-flex items-center justify-center rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 ${
+  `navbar-link-pill relative inline-flex items-center justify-center rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 ${
     isActive ? 'is-active text-white' : 'text-slate-500 hover:text-sky-600'
   }`
 
@@ -13,30 +13,43 @@ export default function Navbar({ theme, onToggleTheme }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+  const lastScrollY = useRef(0)
+  const location = useLocation()
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY
-      
-      // Scrolled state for visual styling
-      setScrolled(currentScrollY > 40)
+    setIsVisible(true)
+  }, [location.pathname])
 
-      // Visibility state for hiding on scroll down, showing on scroll up
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling down & not at the very top
-        setIsVisible(false)
-      } else {
-        // Scrolling up
-        setIsVisible(true)
-      }
-      
-      setLastScrollY(currentScrollY)
+  useEffect(() => {
+    let ticking = false
+
+    const handleScroll = () => {
+      if (ticking) return
+      ticking = true
+
+      requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY
+        const delta = currentScrollY - lastScrollY.current
+
+        setScrolled(prev => {
+          const next = currentScrollY > 40
+          return prev !== next ? next : prev
+        })
+
+        if (delta > 5 && currentScrollY > 100) {
+          setIsVisible(false)
+        } else if (delta < -5) {
+          setIsVisible(true)
+        }
+
+        lastScrollY.current = currentScrollY
+        ticking = false
+      })
     }
     
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY])
+  }, [])
 
   return (
     <Motion.header
@@ -49,7 +62,7 @@ export default function Navbar({ theme, onToggleTheme }) {
         duration: 0.4, 
         ease: [0.16, 1, 0.3, 1] 
       }}
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 inset-x-0 z-50 ${
         scrolled ? 'py-4' : 'py-8'
       }`}
     >
